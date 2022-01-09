@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { CommentCollection } from '../api/commentCollection';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Button, Form } from 'react-bootstrap';
@@ -13,11 +12,9 @@ export const CommentForm = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (!comment.trim()) return;
-    CommentCollection.insert({
-      text: comment.trim(),
-      emailId: user.emails[0].address,
-      createdAt: new Date(),
-    });
+
+    Meteor.call('comments.insert', comment, user.emails[0].address);
+
     setComment('');
   };
   return (
