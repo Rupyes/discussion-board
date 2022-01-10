@@ -12,8 +12,16 @@ export const CommentForm = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (!comment.trim()) return;
+    let text = comment;
+    while (text.endsWith('\n')) {
+      text = text.slice(0, -1);
+    }
+    while (text.startsWith('\n')) {
+      text = text.slice(1);
+    }
+    if (!text.trim()) return;
 
-    Meteor.call('comments.insert', comment, user.emails[0].address);
+    Meteor.call('comments.insert', text, user.emails[0].address);
 
     setComment('');
   };

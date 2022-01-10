@@ -18,7 +18,7 @@ export const HomePage = () => {
 
   return (
     <div className='d-flex flex-column justify-content-center align-items-center'>
-      <div className=' col-sm-8'>
+      <div className='col-9'>
         <div className='d-flex align-items-right'>
           <CommentForm />
         </div>
