@@ -2,12 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Form } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 export const LoginForm = () => {
   const user = useTracker(() => Meteor.user());
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [errorMsg, setErrorMsg] = useState('');
 
   const navigate = useNavigate();
 
@@ -19,7 +21,9 @@ export const LoginForm = () => {
 
   const submit = (e) => {
     e.preventDefault();
-    Meteor.loginWithPassword({ email }, password);
+    Meteor.loginWithPassword({ email }, password, (err) => {
+      setErrorMsg(err.reason);
+    });
   };
 
   return (
@@ -59,6 +63,17 @@ export const LoginForm = () => {
         <p className='mt-2'>
           New User? <Link to='/register'>Register</Link>
         </p>
+        {errorMsg && (
+          <Alert
+            variant='warning'
+            onClose={() => {
+              setErrorMsg('');
+            }}
+            dismissible
+          >
+            {errorMsg}
+          </Alert>
+        )}
       </form>
     </div>
   );

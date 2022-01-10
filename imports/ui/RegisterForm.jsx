@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Accounts } from 'meteor/accounts-base';
+import { Alert } from 'react-bootstrap';
 
 export const RegisterForm = () => {
   //   const user = useTracker(() => Meteor.user());
@@ -72,7 +73,7 @@ export const RegisterForm = () => {
             onChange={(e) => setCPassword(e.target.value)}
           />
         </div>
-        {errorMsg && <p>{errorMsg}</p>}
+
         <div>
           <button type='submit' className='btn btn-primary'>
             Register
@@ -81,6 +82,17 @@ export const RegisterForm = () => {
         <p className='mt-3'>
           Already have an account? <Link to='/login'>Log In</Link>
         </p>
+        {errorMsg && (
+          <Alert
+            variant='warning'
+            onClose={() => {
+              setErrorMsg('');
+            }}
+            dismissible
+          >
+            {errorMsg}
+          </Alert>
+        )}
       </form>
     </div>
   );
